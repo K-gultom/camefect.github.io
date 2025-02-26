@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webcam Toy Effect</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <video id="webcam" width="640" height="480" autoplay></video>
+        <!-- Menambahkan div untuk menu efek di sebelah kanan -->
+        <div class="effects">
+            <button onclick="applyEffect('none')">Normal</button>
+            <button onclick="applyEffect('grayscale')">Grayscale</button>
+            <button onclick="applyEffect('sepia')">Sepia</button>
+            <button onclick="applyEffect('invert')">Invert</button>
+            <button onclick="applyEffect('blur')">Blur</button>
+            <button onclick="applyEffect('hue-rotate')">Hue Rotate</button>
+            <button onclick="applyEffect('brightness')">Brightness</button>
+            <button onclick="applyEffect('contrast')">Contrast</button>
+            <button onclick="applyEffect('saturate')">Saturate</button>
+            <button onclick="applyEffect('opacity')">Opacity</button>
+        </div>
+    </div>
+    <button onclick="applyEffect('brightness')">Brightness</button>
+    <input type="range" id="brightness-slider" min="0" max="2" step="0.1" value="1" onchange="adjustBrightness()">
+    <button onclick="applyEffect('contrast')">Contrast</button>
+    <input type="range" id="contrast-slider" min="0" max="2" step="0.1" value="1" onchange="adjustContrast()">
+    <button onclick="applyEffect('saturate')">Saturate</button>
+    <input type="range" id="saturate-slider" min="0" max="2" step="0.1" value="1" onchange="adjustSaturate()">
+
+
+    <script>
+        function adjustBrightness() {
+            const slider = document.getElementById('brightness-slider');
+            const video = document.getElementById('webcam');
+            video.style.filter = `brightness(${slider.value})`;
+        }
+        
+        function adjustContrast() {
+            const slider = document.getElementById('contrast-slider');
+            const video = document.getElementById('webcam');
+            video.style.filter = `contrast(${slider.value})`;
+        }
+        
+        function adjustSaturate() {
+            const slider = document.getElementById('saturate-slider');
+            const video = document.getElementById('webcam');
+            video.style.filter = `saturate(${slider.value})`;
+        }
+        
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
