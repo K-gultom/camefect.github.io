@@ -34,10 +34,13 @@
                 <!-- Button for Capture Picture -->
                 <div class="row mt-2">
                     <div class="col">
-                        <button class="btn btn-success w-100" onclick="capturePhoto()">📸 Ambil Foto</button>
+                        <button class="btn btn-success w-100" onclick="capturePhoto()">📸 Capture</button>
                     </div>
                     <div class="col">
                         <button class="btn btn-danger w-100" onclick="resetAll()">🔄 Reset</button>
+                    </div>
+                    <div class="col">
+                        <button id="flip-camera-btn" class="btn btn-warning w-100 d-none" onclick="flipCamera()">🔄 Flip📸</button>
                     </div>
                 </div>
 
@@ -107,7 +110,10 @@
         </div>
     </div>
     
+    
+    
 
+    
     <script src="script.js"></script>
 </body>
 </html>
