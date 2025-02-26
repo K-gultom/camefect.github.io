@@ -6,48 +6,107 @@
     <title>Webcam Toy Effect</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Agar video bisa responsif */
+        .video-container video {
+            max-width: 100%;
+            height: auto;
+        }
+        /* Agar tombol efek tersusun vertikal di layar kecil */
+        @media (max-width: 768px) {
+            .effects {
+                display: flex;
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body class="bg-dark text-light">
     <div class="container text-center mt-4">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-lg-8 col-md-12">
                 <div class="video-container position-relative">
-                    <video id="webcam" class="border border-dark rounded-3" width="640" height="480" autoplay></video>
-                    <img id="sticker" src="" class="sticker d-none">
+                    <video id="webcam" class="border border-dark rounded-3 w-100" autoplay></video>
+                    <div id="color-overlay" class="position-absolute w-100 h-100"></div>
+                    <div id="sticker-container" class="position-absolute w-100 h-100"></div>
                 </div>
+
+                <!-- Button for Capture Picture -->
+                <div class="row mt-2">
+                    <div class="col">
+                        <button class="btn btn-success w-100" onclick="capturePhoto()">📸 Ambil Foto</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-danger w-100" onclick="resetAll()">🔄 Reset</button>
+                    </div>
+                </div>
+
                 <div class="mt-3">
                     <div class="row">
-                        <div class="col">
+                        <div class="col-4 col-md-12 col-sm-4">
                             <label class="form-label">Brightness</label>
-                            <input type="range" id="brightness-slider" min="0.5" max="2" step="0.1" value="1" class="form-range" onchange="adjustBrightness()">
-                        
+                            <input type="range" id="brightness-slider" min="0.1" max="3" step="0.1" value="1" class="form-range w-100" oninput="updateFilters()">
                         </div>
-                        <div class="col">
+                        <div class="col-4 col-md-12 col-sm-4">
                             <label class="form-label">Contrast</label>
-                            <input type="range" id="contrast-slider" min="0.5" max="2" step="0.1" value="1" class="form-range" onchange="adjustContrast()">
-                    
+                            <input type="range" id="contrast-slider" min="0.5" max="3" step="0.1" value="1" class="form-range w-100" oninput="updateFilters()">
                         </div>
-                        <div class="col">
+                        <div class="col-4 col-md-12 col-sm-4">
                             <label class="form-label">Saturation</label>
-                            <input type="range" id="saturate-slider" min="0.5" max="2" step="0.1" value="1" class="form-range" onchange="adjustSaturate()">
+                            <input type="range" id="saturate-slider" min="0.5" max="3" step="0.1" value="1" class="form-range w-100" oninput="updateFilters()">
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="effects p-3 rounded bg-dark text-white">
-                    <h5 class="text-center">Effects</h5>
-                    <button class="btn btn-light w-100 mb-2" onclick="applyEffect('none')">Normal</button>
-                    <button class="btn btn-secondary w-100 mb-2" onclick="applyEffect('grayscale')">Grayscale</button>
-                    <button class="btn btn-warning w-100 mb-2" onclick="applyEffect('sepia')">Sepia</button>
-                    <button class="btn btn-dark w-100 mb-2" onclick="applyEffect('invert')">Invert</button>
-                    <button class="btn btn-primary w-100 mb-2" onclick="applyEffect('warp')">Warp Face</button>
-                    <button class="btn btn-danger w-100 mb-2" onclick="applyEffect('big-eye')">Big Eye</button>
-                    <button class="btn btn-success w-100 mb-2" onclick="applyEffect('sticker')">Add Sticker</button>
+
+                <div class="mt-3">
+                    <div class="row">
+                        <div class="col-4">
+                            <label class="form-label">Red</label>
+                            <input type="range" id="red-slider" min="0" max="255" step="5" value="255" class="form-range w-100" oninput="updateFilters()">
+                        </div>
+                        <div class="col-4">
+                            <label class="form-label">Green</label>
+                            <input type="range" id="green-slider" min="0" max="255" step="5" value="255" class="form-range w-100" oninput="updateFilters()">
+                        </div>
+                        <div class="col-4">
+                            <label class="form-label">Blue</label>
+                            <input type="range" id="blue-slider" min="0" max="255" step="5" value="255" class="form-range w-100" oninput="updateFilters()">
+                        </div>
+                    </div>
                 </div>
+                
+                
+                
+
+            </div>
+
+            <div class="col-lg-4 col-md-12 mt-3 mt-lg-0">
+                <div class="effects p-3 rounded bg-dark text-white">
+                    <h5 class="text-center">Color Effects</h5>
+                    <div class="row">
+                        <div class="col-6"><button class="btn btn-light w-100 mb-2" onclick="applyEffect('none')">Normal</button></div>
+                        <div class="col-6"><button class="btn btn-secondary w-100 mb-2" onclick="applyEffect('grayscale')">Grayscale</button></div>
+                        <div class="col-6"><button class="btn btn-warning w-100 mb-2" onclick="applyEffect('sepia')">Sepia</button></div>
+                        <div class="col-6"><button class="btn btn-danger w-100 mb-2" onclick="applyEffect('invert')">Invert</button></div>
+                        <div class="col-6"><button class="btn btn-primary w-100 mb-2" onclick="applyEffect('cool')">Cool Blue</button></div>
+                        <div class="col-6"><button class="btn btn-success w-100 mb-2" onclick="applyEffect('warm')">Warm Green</button></div>
+                        <div class="col-6"><button class="btn btn-info w-100 mb-2" onclick="applyEffect('gradient')">Gradient Color</button></div>
+                    </div>
+               </div>
             </div>
         </div>
     </div>
+
+    <div class="container mt-3 text-center mb-5">
+        <div class="row">
+            <div class="col-12 col-md-6 offset-md-3">
+                <h5>Hasil Foto:</h5>
+                <canvas id="photoCanvas" class="border border-light rounded-3 w-100"></canvas>
+                <a id="downloadLink" class="btn btn-primary mt-2 d-none" download="foto.png">Download Foto</a>
+            </div>
+        </div>
+    </div>
+    
 
     <script src="script.js"></script>
 </body>
